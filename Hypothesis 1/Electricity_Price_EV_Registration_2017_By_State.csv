@@ -1,0 +1,52 @@
+US_States,State_Codes,Electricity_Price, EV_Registration 
+Alabama,AL,9.83,900
+Alaska,AK,19.1,370
+Arizona,AZ,10.64,"9,820"
+Arkansas,AR,8.26,270
+California,CA,16.06,"179,600"
+Colorado,CO,9.99,"7,750"
+Connecticut,CT,17.55,"2,710"
+Delaware,DE,10.91,400
+District of Columbia,DC,11.8,660
+Florida,FL,10.42,"16,600"
+Georgia,GA,9.83,"13,530"
+Hawaii,HI,26.05,"5,360"
+Idaho,ID,8.26,710
+Illinois,IL,9.49,"7,950"
+Indiana,IN,9.77,"1,740"
+Iowa,IA,8.73,610
+Kansas,KS,10.6,970
+Kentucky,KY,8.57,730
+Louisiana,LA,7.79,770
+Maine,ME,13.02,470
+Maryland,MD,11.98,"4,590"
+Massachusetts,MA,17.12,"5,520"
+Michigan,MI,11.28,"2,730"
+Minnesota,MN,10.27,"2,730"
+Mississippi,MS,9.09,260
+Missouri,MO,10.03,"2,110"
+Montana,MT,8.92,330
+Nebraska,NE,9.08,520
+Nevada,NV,8.76,"3,030"
+New Hampshire,NH,16.17,650
+New Jersey,NJ,13.32,"6,610"
+New Mexico,NM,9.59,780
+New York,NY,14.74,"10,940"
+North Carolina,NC,9.04,"4,540"
+North Dakota,ND,8.78,140
+Ohio,OH,9.84,"3,790"
+Oklahoma,OK,8.2,"1,380"
+Oregon,OR,8.81,"9,550"
+Pennsylvania,PA,10.13,"4,390"
+Rhode Island,RI,16.42,380
+South Carolina,SC,9.97,"1,220"
+South Dakota,SD,10.05,180
+Tennessee,TN,9.45,"2,970"
+Texas,TX,8.38,"14,390"
+Utah,UT,8.6,"3,410"
+Vermont,VT,14.6,750
+Virginia,VA,9.18,"4,290"
+Washington,WA,7.94,"19,900"
+West Virginia,WV,9,140
+Wisconsin,WI,10.76,"2,700"
+Wyoming,WY,8.28,100
