@@ -1,5 +1,5 @@
-* This is an experiment to study whether there is a relationship between the electricity cost and the sales of EV in the United States in 2017 *
-•	Null hypothesis: 
+ This is an experiment to study whether there is a relationship between the electricity cost and the sales of EV in the United States in 2017
+ •	Null hypothesis: 
 There is no difference of the electricity price (group A and B) on the effect of EV sales 
 •	Alternative hypothesis: 
 There is difference of the electricity price (group A and B) on the effect of EV sales 
