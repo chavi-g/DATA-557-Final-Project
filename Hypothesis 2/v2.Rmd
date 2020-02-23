@@ -1,0 +1,66 @@
+---
+title: "v1"
+output: html_document
+---
+```{r}
+data <- read.csv("C:/Users/ankit/Downloads/stat data/final_data_3.csv")
+plot(data$Gross.Domestic.Product..All.Industries,
+     data$Count.of.sales,
+     xlab = "GDP", 
+     ylab = "EV Registration",
+     main="EV Registration and GDP in 2017")
+
+plot(data$Mean.Real.Wages,
+     data$Count.of.sales,
+     xlab = "GDP", 
+     ylab = "EV Registration",
+     main="EV Registration and GDP in 2017")
+plot(data$Per.Capita.Personal.Income,
+     data$Count.of.sales,
+     xlab = "GDP", 
+     ylab = "EV Registration",
+     main="EV Registration and GDP in 2017")
+plot(data$Unemployment.Rate,
+     data$Count.of.sales,
+     xlab = "GDP", 
+     ylab = "EV Registration",
+     main="EV Registration and GDP in 2017")
+
+summary(aov(data$Count.of.sales~data$Gross.Domestic.Product..All.Industries))
+summary(aov(data$Count.of.sales~data$Mean.Real.Wages))
+summary(aov(data$Count.of.sales~data$Per.Capita.Personal.Income))
+summary(aov(data$Count.of.sales~data$Unemployment.Rate))
+summary(aov(data$Count.of.sales~data$Gross.Domestic.Product..All.Industries+data$Mean.Real.Wages+data$Per.Capita.Personal.Income+data$Unemployment.Rate))
+```
+
+
+```{r}
+data <- read.csv("C:/Users/ankit/Downloads/stat data/final_data_3.csv")
+
+summary(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Gross.Domestic.Product..All.Industries))))$coeff
+summary(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Mean.Real.Wages))))$coeff
+summary(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Per.Capita.Personal.Income))))$coeff
+summary(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Unemployment.Rate))))$coeff
+summary(lm(as.numeric(as.character(data$Count.of.sales))~as.numeric(as.character(data$Gross.Domestic.Product..All.Industries))+as.numeric(as.character(data$Mean.Real.Wages))+as.numeric(as.character(data$Per.Capita.Personal.Income))+as.numeric(as.character(data$Unemployment.Rate))))$coeff
+
+#summary(lm(as.numeric(as.character(data$Count.of.sales))~as.numeric(as.character(data$Gross.Domestic.Product..All.Industries))*as.numeric(as.character(data$Mean.Real.Wages))*as.numeric(as.character(data$Per.Capita.Personal.Income))*as.numeric(as.character(data$Unemployment.Rate))))$coeff
+
+```
+```{r}
+
+plot(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Gross.Domestic.Product..All.Industries))))
+plot(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Mean.Real.Wages))))
+plot(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Per.Capita.Personal.Income))))
+plot(lm(as.numeric(data$Count.of.sales)~as.numeric(as.character(data$Unemployment.Rate))))
+plot(lm(as.numeric(as.character(data$Count.of.sales))~as.numeric(as.character(data$Gross.Domestic.Product..All.Industries))+as.numeric(as.character(data$Mean.Real.Wages))+as.numeric(as.character(data$Per.Capita.Personal.Income))+as.numeric(as.character(data$Unemployment.Rate))))
+```
+
+```{r}
+plot(as.numeric(as.character(data$Gross.Domestic.Product..All.Industries)),as.numeric(as.character(data$Count.of.sales)))
+plot(as.numeric(as.character(data$Unemployment.Rate)),as.numeric(as.character(data$Count.of.sales)))
+```
+
+```{r}
+as.numeric(as.character(data$Gross.Domestic.Product..All.Industries))
+```
+
