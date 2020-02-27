@@ -1,0 +1,65 @@
+```{r}
+### Analysis for Washington counties
+
+data <- read.csv("C:\\Users\\ankit\\Downloads\\stat data\\final_data_3.csv")
+
+#Data Cleaning
+data2 <- data[which(data$Unemployment.Rate!='#N/A'),]
+data2$Count.of.sales <- as.numeric(as.character(data2$Count.of.sales))
+data2$Gross.Domestic.Product..All.Industries <- as.numeric(as.character(data2$Gross.Domestic.Product..All.Industries))
+data2$Unemployment.Rate <- as.numeric(as.character(data2$Unemployment.Rate))
+data2$Mean.Real.Wages <- as.numeric(as.character(data2$Mean.Real.Wages))
+data2$Per.Capita.Personal.Income <- as.numeric(as.character(data2$Per.Capita.Personal.Income))
+write.csv(data2, "cleaned_data.csv")
+
+cor(data2[,c(2,3,7,8,9)])
+
+
+
+```
+
+We notice that the correlation matrix indicate slight correlations between every pair of variables. This might be a thing of concern.
+```{r}
+fit1 <- lm(Count.of.sales ~ Gross.Domestic.Product..All.Industries, data = data2)
+summary(fit1)
+plot(fit1)
+
+```
+We notice that the coefficient of GDP is quite small, but the evidence of a relationship between count of sales and GDP is very strong. We see a high R-squared values which makes this regression very reliable. Since the majority of points lie on the line, in the standardized residuals vs Theoretical Quantiles we can make the assumption of normality
+
+```{r}
+fit2<- lm(Count.of.sales ~ Per.Capita.Personal.Income, data = data2)
+summary(fit2)
+plot(fit2)
+
+```
+We notice that the coefficient of Per.Capita.Personal.Income is resonably large, and the evidence of a relationship between count of sales and Per.Capita.Personal.Income is very strong. We see very small R-squared values which makes this regression very less reliable. Since the majority of points do not lie on the line, in the standardized residuals vs Theoretical Quantiles we cannot make the assumption of normality
+
+```{r}
+fit3<- lm(Count.of.sales ~ Mean.Real.Wages, data = data2)
+summary(fit3)
+plot(fit3)
+
+fit32<- aov(Count.of.sales ~ Mean.Real.Wages, data = data2)
+summary(fit32)
+plot(fit32)
+
+```
+We notice that the coefficient of Mean.Real.Wages is resonably large, but the evidence against a relationship between count of sales and Mean.Real.Wages is very strong. We see very small R-squared values which makes this regression very less reliable. Since the majority of points lie on the line, in the standardized residuals vs Theoretical Quantiles we can make the assumption of normality. This is also reflected in the AOV test.
+
+
+```{r}
+fit4 <- lm(Count.of.sales ~ Unemployment.Rate, data = data2)
+summary(fit4)
+plot(fit4)
+
+```
+
+We notice that the coefficient of Unemployment.Rate is resonably large, and the evidence against a relationship between count of sales and Unemployment.Rate is very strong. We see very small R-squared values which makes this regression very less reliable. Since the majority of points lie on the line, in the standardized residuals vs Theoretical Quantiles we can make the assumption of normality.
+
+```{r}
+fit5 <- lm(Count.of.sales ~ Gross.Domestic.Product..All.Industries+Per.Capita.Personal.Income+Unemployment.Rate+Mean.Real.Wages , data = data2)
+summary(fit5)
+plot(fit5)
+
+```
