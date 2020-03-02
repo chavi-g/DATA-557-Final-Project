@@ -13,6 +13,7 @@ library(ggplot2)
 
 # Get the dataset --------------------------------------------------------------
 input <- read.csv("Hypothesis_1_Dataset.csv")
+population <- read.csv("US_State_Population_2018.csv")
 # ------------------------------------------------------------------------------
 
 # Summary statistic-------------------------------------------------------------
@@ -51,12 +52,24 @@ qqline(fit$residuals)
 
 #Plot the data ---------------------------------------------------------------
 par(mfrow=c(2,2), mar=c(6,4,2,5))
-plot(lm(EV_Registration ~ Electricity_Price, data = input))
+plot(EV_by_Population ~ Electricity_Price, data = elPrice_EV_data)
+plot(log(EV_by_Population) ~ Electricity_Price, data = elPrice_EV_data)
+abline(fit2)
 # -----------------------------------------------------------------------------
 
-# Test the effect of electricity price on the EV registration------------------
-summary(aov(EV_Registration ~ factor(Group), data = input))
-summary(lm(EV_Registration ~ factor(Group), data = input))
-# -----------------------------------------------------------------------------
+# Test effect of electricity price on the EV registration and the normalised EV registration
+summary(lm(EV_Registration ~ Electricity_Price, data = elPrice_EV_data))
+fit = lm(EV_by_Population ~ Electricity_Price, data = elPrice_EV_data)
+summary(lm(EV_Registration ~ Electricity_Price + Population, data = elPrice_EV_data))
+summary(fit)
+plot(fit)
 
+library(car)
+bc = boxCox(fit, plotit = F)
+bc$x[which.max(bc$y)]
+fit2 = lm(log(EV_by_Population) ~ Electricity_Price, data = elPrice_EV_data)
+summary(fit2)
+plot(fit2)
 
+glm.fit = glm(EV_Registration ~ Electricity_Price, data = elPrice_EV_data, family = "poisson")
+anova(glm(EV_Registration ~ Electricity_Price, data = elPrice_EV_data, family = "poisson"), glm(EV_Registration ~ 1, data = elPrice_EV_data, family = "poisson"), test = "Chisq")
