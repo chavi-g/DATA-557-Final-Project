@@ -1,0 +1,16 @@
+1. States- EV Registration Count (2017) +  Population (2018) + Electricity Price (2017) [Liem - state + county population data] 
+ --- normalise the registration count (with population) and model with e price
+ --- fit reg count vs e price and population
+ --- t-test for high vs low e price
+ 
+ 
+2. States- EV Registration count (2017) + Economic parameters (2017) + Electricity price (2017) + Population (2018)
+ --- normalise for population count
+ --- response: EV Reg count (normalised for population), Predictors: Economic parameters + Electricity price (with and without)
+
+
+3. Counties- EV Registration count (2017) + Economic parameters (2017) + Population (2018)
+ --- normalise for population count
+ --- response: EV Reg count (normalised for population), Predictors: Economic parameters
+ 
+Compare model 2 and model 3 for checking similarities b/w state and counties.
