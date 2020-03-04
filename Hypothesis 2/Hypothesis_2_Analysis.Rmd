@@ -14,9 +14,43 @@ head(data)
 data = data[,which(!colnames(data) %in% c("State.Codes"))]
 summary(data)
 plot(data[, which(!colnames(data) %in% c("US.State"))])
+data$Per.Capita.GDP = data$Gross.Domestic.Product..All.Industries/data$Population
 colnames(data)
 
 library(corrplot)
-corrplot(cor(data[, c(1,3,4,5,6,7)]))
+corrplot(cor(data[, c(1,7,3,4,5,6,8)]))
+plot(data[,c(1,7,3,4,5,6,8)])
+```
+
+## Model Fitting
+```{r}
+#Sales by Population vs GDP
+# Outlier California
+#residual plot still not good
+library(car)
+fit1 = lm(log(Sales.by.Population) ~ Gross.Domestic.Product..All.Industries, data = data)
+summary(fit1)
+plot(fit1)
+boxCox(fit1)
+fit1.log = glm(Sales.by.Population ~ Gross.Domestic.Product..All.Industries, data = data[-5,], family =poisson(link = "log"))
+summary(fit1.log)
+plot(fit1.log)
+```
+
+
+```{r}
+#Per Capita Income vs Sales by Population
+# Log Transformation on response
+# OUtlier detected for DC -> residual plot non-constant variance, normal dist
+# Remove outlier -> constant variance, normal dist
+fit2 = lm(log(Sales.by.Population) ~ Per.Capita.GDP, data = data)
+plot(fit2)
+boxCox(fit2)
+```
+
+```{r}
+fit3 = lm(Sales.by.Population ~ Per.Capita.Personal.Income, data = data)
+
+fit4 = lm(Sales.by.Population ~ Unemployment.Rate, data = data)
 ```
 
