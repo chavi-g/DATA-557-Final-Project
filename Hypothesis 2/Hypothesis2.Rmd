@@ -1,0 +1,55 @@
+---
+title: "Hypothesis2"
+author: "Kirti Kharb"
+date: "3/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Data
+```{r}
+data = read.csv('EV_Reg_Indicators_By_State.csv')
+data$Per.Capita.GDP = data$Gross.Domestic.Product..All.Industries/data$Population
+colnames(data)
+```
+
+## Model Fitting
+### Count vs GDP
+linear model is fitting good, assumptions of normality and constant variances are  satisfied
+```{r}
+library(car)
+fit = lm(log(Count.of.sales) ~ log(Gross.Domestic.Product..All.Industries), data=data)
+scatter.smooth(exp(-8.1549 + (1.2728)*log(data$Gross.Domestic.Product..All.Industries)), data$Count.of.sales)
+summary(fit)
+plot(fit)
+boxCox(fit)
+
+fit2 = glm(Count.of.sales ~ Gross.Domestic.Product..All.Industries, data=data, family=poisson)
+summary(fit2)
+anova(fit2, test = "Chisq")
+plot(fit2)
+```
+
+### Count per population vs Unemployment rate
+not significant results -> doesnot show trend
+```{r}
+fit3 = lm(Sales.by.Population ~ log(Unemployment.Rate), data = data)
+summary(fit3)
+scatter.smooth(exp(4.2065 + (-0.2575)*log(data$Unemployment.Rate)), data$Sales.by.Population)
+
+plot(fit3)
+boxCox(fit3)
+plot(data$Sales.by.Population, data$Unemployment.Rate)
+abline(fit3)
+```
+
+```{r}
+data$PCPI.Scaled = data$Per.Capita.Personal.Income/1000
+fit5 = lm(log(Sales.by.Population) ~ PCPI.Scaled, data=data)
+summary(fit5)
+exp(0.04512)
+```
+4.6% increase in sales of EV per 1000$ increase in per capita personal income
