@@ -50,8 +50,9 @@ fit=lm(EV_Registration ~ Electricity_Price, data = input)
 qqnorm(fit$residuals)
 qqline(fit$residuals)
 
+elPrice_EV_data = read.csv("Hypothesis_1_Final_Data.csv")
+
 #Plot the data ---------------------------------------------------------------
-par(mfrow=c(2,2), mar=c(6,4,2,5))
 plot(EV_by_Population ~ Electricity_Price, data = elPrice_EV_data)
 plot(log(EV_by_Population) ~ Electricity_Price, data = elPrice_EV_data)
 abline(fit2)

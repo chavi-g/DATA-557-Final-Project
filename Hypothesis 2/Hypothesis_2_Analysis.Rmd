@@ -14,43 +14,75 @@ head(data)
 data = data[,which(!colnames(data) %in% c("State.Codes"))]
 summary(data)
 plot(data[, which(!colnames(data) %in% c("US.State"))])
-data$Per.Capita.GDP = data$Gross.Domestic.Product..All.Industries/data$Population
+data$Per.Capita.GDP = data$Gross.Domestic.Product..All.Industries/data$Population*10^5
 colnames(data)
 
 library(corrplot)
-corrplot(cor(data[, c(1,7,3,4,5,6,8)]))
-plot(data[,c(1,7,3,4,5,6,8)])
+corrplot(cor(data[, c(1,7,3,4,5,6,8,9)]), type = "upper")
+plot(data[,c(1,7,3,4,5,6,8,9)])
 ```
 
 ## Model Fitting
-```{r}
-#Sales by Population vs GDP
-# Outlier California
-#residual plot still not good
-library(car)
-fit1 = lm(log(Sales.by.Population) ~ Gross.Domestic.Product..All.Industries, data = data)
-summary(fit1)
-plot(fit1)
-boxCox(fit1)
-fit1.log = glm(Sales.by.Population ~ Gross.Domestic.Product..All.Industries, data = data[-5,], family =poisson(link = "log"))
-summary(fit1.log)
-plot(fit1.log)
-```
-
 
 ```{r}
-#Per Capita Income vs Sales by Population
+#Per Capita GDP vs Sales by Population
 # Log Transformation on response
 # OUtlier detected for DC -> residual plot non-constant variance, normal dist
 # Remove outlier -> constant variance, normal dist
-fit2 = lm(log(Sales.by.Population) ~ Per.Capita.GDP, data = data)
-plot(fit2)
-boxCox(fit2)
+fit1 = lm(log(Sales.by.Population) ~ Per.Capita.GDP, data = data[-8,])
+plot(fit1)
+boxCox(fit1)
+summary(fit1)
 ```
 
 ```{r}
-fit3 = lm(Sales.by.Population ~ Per.Capita.Personal.Income, data = data)
 
-fit4 = lm(Sales.by.Population ~ Unemployment.Rate, data = data)
+fit3 = lm(log(Sales.by.Population) ~ Per.Capita.Personal.Income, data = data)
+plot(fit3)
+boxCox(fit3)
+plot(log(Sales.by.Population) ~ Per.Capita.Personal.Income, data = data)
+abline(fit3)
+summary(fit3)
+
+
+fit3.log = glm(Sales.by.Population ~ Per.Capita.Personal.Income, data = data, family = poisson)
+fit3.log$coefficients
+
+x = 3700: 9000
+y = exp(2.600348e+00 + (3.315661e-05*x))
+plot(x,y)
+plot(Sales.by.Population ~ Per.Capita.Personal.Income, data = data)
+lines(x, y, col=4)
+
+scatter.smooth(data$Sales.by.Population, exp(2.600348e+00 + (3.315661e-05*data$Per.Capita.Personal.Income)))
+
+summary(fit3.log)
+```
+
+```{r}
+fit.full = lm(log(Sales.by.Population)~ log(Unemployment.Rate) + Per.Capita.GDP + Per.Capita.Personal.Income, data = data)
+plot(fit.full)
+summary(fit.full)
+vif(fit.full)
+fit.partial = lm(log(Sales.by.Population)~  Per.Capita.GDP + Per.Capita.Personal.Income, data = data)
+plot(fit.partial)
+summary(fit.partial)
+
+anova(fit3, fit.partial)
+```
+
+```{r}
+fit.electricity = lm(log(Sales.by.Population)~ Per.Capita.Personal.Income + Electricity.Price, data = data)
+plot(fit.electricity)
+summary(fit.electricity)
+
+fit.elec.only = lm(log(Sales.by.Population)~ Electricity.Price, data = data)
+plot(fit.elec.only)
+summary(fit.elec.only)
+
+summary(fit3)
+
+anova(fit.elec.only, fit.electricity)
+anova(fit3, fit.electricity)
 ```
 
