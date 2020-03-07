@@ -1,0 +1,65 @@
+---
+title: "Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+elPrice_EV_data = read.csv("Hypothesis_1_Final_Data.csv")
+plot(EV_by_Population ~ Electricity_Price, data = elPrice_EV_data)
+plot(log(EV_by_Population) ~ Electricity_Price, data = elPrice_EV_data)
+plot(elPrice_EV_data[,c(5,6,7,8)])
+
+library(ggplot2)
+ggplot(elPrice_EV_data, aes(x=Electricity_Price, y=log(EV_by_Population))) + 
+  geom_point()+
+  geom_smooth(method=lm)
+
+ggplot(elPrice_EV_data, aes(x=Electricity_Price, y=EV_by_Population)) + 
+  geom_point()+
+  geom_smooth(method=lm)
+
+fit = lm(EV_by_Population ~ Electricity_Price, data = elPrice_EV_data)
+summary(fit)
+plot(fit)
+
+library(car)
+bc = boxCox(fit)
+
+fit2 = lm(log(EV_by_Population) ~ Electricity_Price, data = elPrice_EV_data)
+summary(fit2)
+plot(fit2, labels.id = elPrice_EV_data$State_Codes, which = 1)
+
+ggplot(elPrice_EV_data, aes(x=fit2$fitted.values, y=fit2$residuals)) + 
+  geom_point()+
+  geom_smooth(method=lm)
+
+library(jtools)
+summ(fit2, robust = TRUE)
+
+par(mfrow = c(1,2))
+plot(fit, labels.id = elPrice_EV_data$State_Codes, which = 1)
+plot(fit, labels.id = elPrice_EV_data$State_Codes, which = 2)
+
+par(mfrow = c(1,2))
+plot(fit2, labels.id = elPrice_EV_data$State_Codes, which = 1)
+plot(fit2, labels.id = elPrice_EV_data$State_Codes, which = 2)
+
+
+par(mfrow = c(1,2))
+hist(elPrice_EV_data$EV_by_Population)
+hist((elPrice_EV_data$EV_by_Population))
+
+     
+ggplot(elPrice_EV_data) +
+  geom_histogram(aes(x = EV_by_Population, y = ..density..), 
+                 fill = "grey", color = "black", binwidth = 50)
+
+library(kableExtra)
+jtools::summ(fit2)
+
+```
+

@@ -37,13 +37,16 @@ summary(fit1)
 
 ```{r}
 
-fit3 = lm(log(Sales.by.Population) ~ Per.Capita.Personal.Income, data = data)
+fit3 = lm(log(Sales.by.Population) ~ PCPI.Scaled, data = data)
 plot(fit3)
 boxCox(fit3)
 plot(log(Sales.by.Population) ~ Per.Capita.Personal.Income, data = data)
 abline(fit3)
 summary(fit3)
 
+fit4 = rlm(log(Sales.by.Population) ~ PCPI.Scaled, data=data)
+
+tab_model(fit2)
 
 fit3.log = glm(Sales.by.Population ~ Per.Capita.Personal.Income, data = data, family = poisson)
 fit3.log$coefficients
@@ -60,11 +63,12 @@ summary(fit3.log)
 ```
 
 ```{r}
-fit.full = lm(log(Sales.by.Population)~ log(Unemployment.Rate) + Per.Capita.GDP + Per.Capita.Personal.Income, data = data)
+data$PCPI.Scaled = data$Per.Capita.Personal.Income/1000
+fit.full = lm(log(Sales.by.Population)~ Unemployment.Rate + Per.Capita.GDP + PCPI.Scaled, data = data)
 plot(fit.full)
 summary(fit.full)
 vif(fit.full)
-fit.partial = lm(log(Sales.by.Population)~  Per.Capita.GDP + Per.Capita.Personal.Income, data = data)
+fit.partial = lm(log(Sales.by.Population)~  Per.Capita.GDP, data = data)
 plot(fit.partial)
 summary(fit.partial)
 
@@ -72,7 +76,7 @@ anova(fit3, fit.partial)
 ```
 
 ```{r}
-fit.electricity = lm(log(Sales.by.Population)~ Per.Capita.Personal.Income + Electricity.Price, data = data)
+fit.electricity = lm(log(Sales.by.Population)~ PCPI.Scaled + Electricity.Price, data = data)
 plot(fit.electricity)
 summary(fit.electricity)
 
